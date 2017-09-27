@@ -2,7 +2,7 @@
 return [
     //Параметры базы данных
     'host' => 'localhost',
-    'dbname' => 'webbylab',
+    'dbname' => 'new_db5',
     'user' => 'root',
     'password' => '',
 ];

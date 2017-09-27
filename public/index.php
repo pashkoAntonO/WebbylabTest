@@ -14,9 +14,8 @@ spl_autoload_register(function ($class) {
     }
 });
 
+$query = $_SERVER['REQUEST_URI'];
 
-
-$query = $_SERVER["QUERY_STRING"];
 $router = new Router($query);
 $router->uploadPage();
 

@@ -2,7 +2,7 @@
 
 return [
     //Путь к контролеру и методу с параметрами
-    '/' => 'MovieController@indexAction',
+    '' => 'MovieController@indexAction',
     'upload' => 'MovieController@uploadAction',
     'create' => 'MovieController@createAction',
     'add' => 'MovieController@addAction',

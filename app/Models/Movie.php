@@ -16,7 +16,6 @@ class Movie
      */
     public static function insert(string $title, int $year, string $format, array $stars): void
     {
-
         $db = new Database();
         $db = $db->getDb();
         $stars = implode(', ', $stars);
