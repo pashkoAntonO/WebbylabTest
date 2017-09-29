@@ -124,7 +124,7 @@ class MovieController
     public function sortAction()
     {
         $movies = Movie::allFind();
-        error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+
         setlocale(LC_ALL, 'ukr_uk');
 
         uasort($movies, 'self::sort');
