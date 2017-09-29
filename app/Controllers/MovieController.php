@@ -110,7 +110,7 @@ class MovieController
     public function searchNameAction()
     {
 
-        $searchStars = htmlspecialchars($_POST["searchTitle"], ENT_QUOTES, "UTF-8");
+        $searchStars = htmlspecialchars($_POST["searchStars"], ENT_QUOTES, "UTF-8");
         $movies = Movie::findFields($searchStars, 'stars');
 
         return View::view('index', $movies);
@@ -124,44 +124,49 @@ class MovieController
     public function sortAction()
     {
         $movies = Movie::allFind();
+        error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
         setlocale(LC_ALL, 'ukr_uk');
 
-        uasort($movies,'self::sort');
+        uasort($movies, 'self::sort');
 
         return View::view('index', $movies);
     }
 
-    private function sort( $a, $b ){
-        $a = mb_strtoupper ( $a['title'], 'UTF-8' );
-        $b = mb_strtoupper ( $b['title'], 'UTF-8' );
+    private function sort($a, $b)
+    {
+        $a = mb_strtoupper($a['title'], 'UTF-8');
+        $b = mb_strtoupper($b['title'], 'UTF-8');
+
         $alphabet = array(
-            'А' => 1, 'Б' => 2, 'В' => 3, 'Г' => 4, 'Д' => 5, 'Е' => 6 ,'Є' => 7, 'Ж' => 8, 'З' => 9, 'И' => 10, 'І' => 11,
+            'А' => 1, 'Б' => 2, 'В' => 3, 'Г' => 4, 'Д' => 5, 'Е' => 6, 'Є' => 7, 'Ж' => 8, 'З' => 9, 'И' => 10, 'І' => 11,
             'Ї' => 12, 'Й' => 13, 'К' => 14, 'Л' => 15, 'М' => 16, 'Н' => 17, 'О' => 18, 'П' => 19, 'Р' => 20, 'С' => 21, 'Т' => 22,
             'У' => 23, 'Ф' => 24, 'Х' => 25, 'Ц' => 26, 'Ч' => 27, 'Ш' => 28, 'Щ' => 29, 'Ь' => 30, 'Ю' => 31, 'Я' => 32
         );
-        $lengthA = mb_strlen ( $a, 'UTF-8' );
-        $lengthB = mb_strlen ( $b, 'UTF-8' );
-        for( $i = 0; $i < ( $lengthA > $lengthB? $lengthB: $lengthA ); $i++ ){
-            if ( $alphabet[ mb_substr( $a, $i, 1, 'UTF-8' ) ] < $alphabet[ mb_substr( $b, $i, 1, 'UTF-8' ) ] ){
-                return -1;
-                break;
-            }
-            elseif ( $alphabet[ mb_substr( $a, $i, 1, 'UTF-8' ) ] > $alphabet[ mb_substr( $b, $i, 1, 'UTF-8' ) ] ){
-                return 1;
+        $lengthA = mb_strlen($a, 'UTF-8');
+        $lengthB = mb_strlen($b, 'UTF-8');
+        for ($i = 0; $i < ($lengthA > $lengthB ? $lengthB : $lengthA); $i++) {
+            if (isset($alphabet[mb_substr($a, $i, 1, 'UTF-8')]) && isset($alphabet[mb_substr($b, $i, 1, 'UTF-8')])) {
+
+                if ($alphabet[mb_substr($a, $i, 1, 'UTF-8')] < $alphabet[mb_substr($b, $i, 1, 'UTF-8')]) {
+                    return -1;
+                    break;
+                } elseif ($alphabet[mb_substr($a, $i, 1, 'UTF-8')] > $alphabet[mb_substr($b, $i, 1, 'UTF-8')]) {
+                    return 1;
 
             }
-            else{
+            } else {
                 return strnatcasecmp($a, $b);
             }
         }
     }
 
-    /**
-     * Загрузка и считывание файла
-     *
-     * @param
-     */
-    public function uploadAction()
+        /**
+         * Загрузка и считывание файла
+         *
+         * @param
+         */
+        public
+        function uploadAction()
         {
             if (is_uploaded_file($_FILES["filename"]["tmp_name"])) {
 
@@ -214,5 +219,4 @@ class MovieController
         }
 
 
-
-}
+    }
